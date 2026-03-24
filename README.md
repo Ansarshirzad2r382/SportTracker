@@ -1,6 +1,6 @@
 # SportTracker beywa!!!!
 
-Willkommen bei **SportTracker beywa** – einem Projekt, das wir gemeinsam im Rahmen des Fachs **Softwareentwicklung** umsetzen.
+Willkommen bei **SportTracker** – einem Projekt, das wir gemeinsam im Rahmen des Fachs **Softwareentwicklung** umsetzen.
 
 Die Idee ist simpel: Eine Webplattform, die Spielerstatistiken trackt – und zwar nicht nur für ein Spiel, sondern für viele. Wir fangen klein an und bauen das Ding Schritt für Schritt aus.
 
