@@ -94,7 +94,7 @@ Wir sind am Anfang. Das Datenmodell steht soweit, der Rest ist Work in Progress:
 ## Projektstruktur
 
 ```
-sportracker-beywa/
+sportracker/
 ├── README.md
 ├── .gitignore
 ├── /backend             ← ASP.NET Core API
