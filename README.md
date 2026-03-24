@@ -16,7 +16,7 @@ Das System ist modular aufgebaut, damit wir neue Spiele später einfach ergänze
 
 ## Für welche Spiele?
 
-Aktuell orientieren wir uns an **League of Legends** als Einstieg, weil das Datenmodell dort schön passt. Geplant sind u. a.:
+Aktuell orientieren wir uns an **League of Legends(Als Bsp genommen)** als Einstieg, weil das Datenmodell dort schön passt. Geplant sind u. a.:
 
 - League of Legends *(erster Fokus)*
 - Valorant
