@@ -1,4 +1,4 @@
-# SportTracker beywa!!!!
+# SportTracker
 
 Willkommen bei **SportTracker** – einem Projekt, das wir gemeinsam im Rahmen des Fachs **Softwareentwicklung** umsetzen.
 
