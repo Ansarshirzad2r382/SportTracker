@@ -1,7 +1,7 @@
 ﻿.idea
 .vscode
 .env
+obj/
 ./node_modules
 ./overwatchAdapter/.env
 /overwatchAdapter/node_modules/
-/backend/obj/
