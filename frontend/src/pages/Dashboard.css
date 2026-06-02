@@ -1,0 +1,321 @@
+/* ───────────────── REACT MAIN CONTAINER FIX ───────────────── */
+html, body, #root {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden;
+}
+
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ───────────────── GLOBAL STYLES ───────────────── */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: transparent;
+    --card: rgba(10, 10, 10, 0.7);
+    --card-hover: rgba(20, 20, 20, 0.85);
+    --text: #ffffff;
+    --muted: #a0a0a0;
+    --accent: #2563eb;
+    --shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+}
+
+body {
+    background: #0a0a0a;
+    color: var(--text);
+    font-family: Inter, sans-serif;
+}
+
+.bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.3;
+}
+
+.dashboard {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+}
+
+/* ───────────────── TOPBAR ───────────────── */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1.5rem 2.5rem;
+    position: sticky;
+    top: 0;
+    background: rgba(5, 5, 5, 0.8);
+    backdrop-filter: blur(16px);
+    z-index: 50;
+}
+
+.welcome-text {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+.greeting {
+    font-size: clamp(28px, 2vw, 34px);
+    font-weight: 700;
+    letter-spacing: -0.8px;
+    color: #ffffff;
+}
+
+.profile-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    color: white;
+    flex-shrink: 0;
+}
+
+/* ───────────────── GRID ───────────────── */
+.cards {
+    width: 100%;
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    padding: 2rem 2.5rem;
+    align-items: start;
+}
+
+/* ───────────────── CARD ───────────────── */
+.card {
+    background: var(--card);
+    border: none;
+    border-radius: 22px;
+    padding: 1.6rem;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .card:hover {
+        background: var(--card-hover);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+    }
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+    .card-header h2 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #ffffff;
+    }
+
+/* ───────────────── EVENTS ───────────────── */
+.event-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-radius: 14px;
+    padding: 18px 16px;
+    font-size: 16px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+    .event-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(4px);
+    }
+
+/* ───────────────── NOTIFICATIONS ───────────────── */
+.notif-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 15px;
+    color: #ffffff;
+}
+
+.notif-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+/* ───────────────── BUTTONS ───────────────── */
+.accept-btn,
+.decline-btn {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    transition: transform 0.15s ease, filter 0.15s ease, background-color 0.15s ease;
+}
+
+.accept-btn {
+    background: var(--accent);
+    color: white;
+}
+
+    .accept-btn:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.15);
+    }
+
+.decline-btn {
+    background: rgba(255, 255, 255, 0.08);
+    color: #dddddd;
+}
+
+    .decline-btn:hover {
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+/* ───────────────── BOTTOM NAV ───────────────── */
+.bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    padding: 0.9rem 0;
+    background: rgba(5, 5, 5, 0.8);
+    backdrop-filter: blur(16px);
+    position: sticky;
+    bottom: 0;
+    margin-top: auto;
+}
+
+.nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    border: none;
+    background: transparent;
+    color: #666;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 6px 0;
+    transition: color 0.15s ease;
+}
+
+    .nav-item:hover {
+        color: #aaa;
+    }
+
+    .nav-item.active {
+        color: var(--accent);
+    }
+
+/* ───────────────── MEDIA QUERIES ───────────────── */
+@media (max-width: 768px) {
+    .topbar {
+        padding: 1rem;
+    }
+
+    .greeting {
+        font-size: 24px;
+    }
+
+    .profile-circle {
+        width: 44px;
+        height: 44px;
+        font-size: 16px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+        gap: 16px;
+    }
+
+    .card {
+        min-height: auto;
+        padding: 1.2rem;
+    }
+
+    .notif-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .notif-actions {
+        width: 100%;
+    }
+
+    .accept-btn,
+    .decline-btn {
+        flex: 1;
+    }
+
+    .bottom-nav {
+        padding: 0.7rem 0;
+    }
+
+    .nav-item {
+        font-size: 11px;
+    }
+}
+
+/* Mittlere Bildschirme (Laptops) */
+@media (min-width: 769px) and (max-width: 1300px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 2rem;
+    }
+}
+
+/* Große Bildschirme & 4K (Volle Breite ausgenutzt!) */
+@media (min-width: 1301px) {
+    .cards {
+        /* Schaltet auf 3 Spalten um, damit der Platz auf deinem Monitor voll belegt wird */
+        grid-template-columns: repeat(3, 1fr);
+        width: 100%;
+        max-width: 100%;
+        padding: 2.5rem;
+    }
+}
