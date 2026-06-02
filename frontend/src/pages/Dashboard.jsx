@@ -31,8 +31,7 @@ export default function Dashboard() {
 
       <header className="topbar">
         <div>
-          <p className="welcome-text">Willkommen zurück Mike</p> {/* Spaeter kommt hier den Name der eingeloggten Person */}
-          <h1 className="greeting">Hi, Player</h1>
+          <h1 className="greeting">Hi, Player</h1> {/* Spaeter kommt hier den Name der eingeloggten Person */}
         </div>
         <div className="profile-circle">P</div>
       </header>
