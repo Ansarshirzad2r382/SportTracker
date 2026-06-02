@@ -1,4 +1,3 @@
-/* ───────────────── REACT MAIN CONTAINER FIX ───────────────── */
 html, body, #root {
     width: 100% !important;
     max-width: 100% !important;
@@ -13,7 +12,6 @@ html, body, #root {
     flex-direction: column;
 }
 
-/* ───────────────── GLOBAL STYLES ───────────────── */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -58,7 +56,6 @@ body {
     background: transparent;
 }
 
-/* ───────────────── TOPBAR ───────────────── */
 .topbar {
     display: flex;
     justify-content: space-between;
@@ -85,21 +82,109 @@ body {
     color: #ffffff;
 }
 
-.profile-circle {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: var(--accent);
+.custom-select-container {
+    position: relative;
+    display: inline-block;
+}
+
+.custom-select-trigger {
+    background: rgba(10, 10, 10, 0.6);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+}
+
+.custom-select-trigger:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(37, 99, 235, 0.3);
+}
+
+.arrow {
+    font-size: 11px;
+    color: var(--muted);
+    transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.arrow.open {
+    transform: rotate(180deg);
+    color: var(--accent);
+}
+
+.custom-select-options {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    background: rgba(15, 15, 15, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 6px;
+    z-index: 100;
+    min-width: 180px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+    animation: slideDown 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    transform-origin: top right;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.option-wrapper {
+    width: 100%;
+}
+
+.logout-button {
+    width: 100%;
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 18px;
-    color: white;
-    flex-shrink: 0;
+    gap: 8px;
+    transition: all 0.2s ease;
 }
 
-/* ───────────────── GRID ───────────────── */
+.logout-button:hover {
+    background: #ef4444;
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+    border-color: transparent;
+}
+
+.logout-button:active {
+    transform: scale(0.96);
+}
+
 .cards {
     width: 100%;
     max-width: 100%;
@@ -110,7 +195,6 @@ body {
     align-items: start;
 }
 
-/* ───────────────── CARD ───────────────── */
 .card {
     background: var(--card);
     border: none;
@@ -125,11 +209,11 @@ body {
     transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-    .card:hover {
-        background: var(--card-hover);
-        transform: translateY(-4px);
-        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
-    }
+.card:hover {
+    background: var(--card-hover);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+}
 
 .card-header {
     display: flex;
@@ -138,13 +222,12 @@ body {
     margin-bottom: 4px;
 }
 
-    .card-header h2 {
-        font-size: 20px;
-        font-weight: 600;
-        color: #ffffff;
-    }
+.card-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+}
 
-/* ───────────────── EVENTS ───────────────── */
 .event-item {
     background: rgba(255, 255, 255, 0.05);
     border: none;
@@ -156,12 +239,11 @@ body {
     transition: background-color 0.15s ease, transform 0.15s ease;
 }
 
-    .event-item:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateX(4px);
-    }
+.event-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(4px);
+}
 
-/* ───────────────── NOTIFICATIONS ───────────────── */
 .notif-item {
     display: flex;
     justify-content: space-between;
@@ -181,7 +263,6 @@ body {
     flex-shrink: 0;
 }
 
-/* ───────────────── BUTTONS ───────────────── */
 .accept-btn,
 .decline-btn {
     border: none;
@@ -200,21 +281,20 @@ body {
     color: white;
 }
 
-    .accept-btn:hover {
-        transform: translateY(-1px);
-        filter: brightness(1.15);
-    }
+.accept-btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.15);
+}
 
 .decline-btn {
     background: rgba(255, 255, 255, 0.08);
     color: #dddddd;
 }
 
-    .decline-btn:hover {
-        background: rgba(255, 255, 255, 0.15);
-    }
+.decline-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
 
-/* ───────────────── BOTTOM NAV ───────────────── */
 .bottom-nav {
     display: flex;
     justify-content: space-around;
@@ -243,15 +323,14 @@ body {
     transition: color 0.15s ease;
 }
 
-    .nav-item:hover {
-        color: #aaa;
-    }
+.nav-item:hover {
+    color: #aaa;
+}
 
-    .nav-item.active {
-        color: var(--accent);
-    }
+.nav-item.active {
+    color: var(--accent);
+}
 
-/* ───────────────── MEDIA QUERIES ───────────────── */
 @media (max-width: 768px) {
     .topbar {
         padding: 1rem;
@@ -261,10 +340,10 @@ body {
         font-size: 24px;
     }
 
-    .profile-circle {
-        width: 44px;
-        height: 44px;
-        font-size: 16px;
+    .custom-select-trigger {
+        padding: 6px 12px;
+        font-size: 12px;
+        gap: 8px;
     }
 
     .cards {
@@ -301,7 +380,6 @@ body {
     }
 }
 
-/* Mittlere Bildschirme (Laptops) */
 @media (min-width: 769px) and (max-width: 1300px) {
     .cards {
         grid-template-columns: repeat(2, 1fr);
@@ -309,10 +387,8 @@ body {
     }
 }
 
-/* Große Bildschirme & 4K (Volle Breite ausgenutzt!) */
 @media (min-width: 1301px) {
     .cards {
-        /* Schaltet auf 3 Spalten um, damit der Platz auf deinem Monitor voll belegt wird */
         grid-template-columns: repeat(3, 1fr);
         width: 100%;
         max-width: 100%;

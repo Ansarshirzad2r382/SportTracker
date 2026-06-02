@@ -14,8 +14,15 @@ export default function Dashboard() {
     { id: 2, from: "Moritz" },
   ])
 
+  const [showDropdown, setShowDropdown] = useState(false)
+
   const dismiss = (id) =>
     setNotifications((prev) => prev.filter((n) => n.id !== id))
+
+  const handleLogout = () => {
+    console.log("Spaeter mehr dazu...")
+    // ...
+  }
 
   return (
     <div className="dashboard">
@@ -33,7 +40,25 @@ export default function Dashboard() {
         <div>
           <h1 className="greeting">Hi, Player</h1> {/* Spaeter kommt hier den Name der eingeloggten Person */}
         </div>
-        <div className="profile-circle">P</div>
+
+        <div className="custom-select-container">
+          
+          <div className="custom-select-trigger" onClick={() => setShowDropdown(!showDropdown)}>
+            <span>Mikey124@myyahoo.com</span>
+            <span className={`arrow ${showDropdown ? 'open' : ''}`}>▼</span>
+          </div>
+
+          {showDropdown && (
+            <div className="custom-select-options">
+              <div className="option-wrapper">
+                <button className="logout-button" onClick={handleLogout}>
+                  ausloggen
+                </button>
+              </div>
+            </div>
+          )}
+
+        </div>
       </header>
 
       <div className="cards">
