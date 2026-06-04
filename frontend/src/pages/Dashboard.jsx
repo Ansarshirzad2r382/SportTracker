@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Home, Search, Users, User, Bell, CalendarDays, Check, X } from "lucide-react"
 import "./Dashboard.css"
+import { useNavigate } from 'react-router-dom'
 
 const mockEvents = [
   { id: 1, name: "Event ABC" },
@@ -13,7 +14,8 @@ export default function Dashboard() {
     { id: 1, from: "Robin" },
     { id: 2, from: "Moritz" },
   ])
-
+ 
+  const navigate = useNavigate()
   const [showDropdown, setShowDropdown] = useState(false)
 
   const dismiss = (id) =>
@@ -96,7 +98,7 @@ export default function Dashboard() {
       </div>
 
       <nav className="bottom-nav">
-        <button className="nav-item active">
+        <button className="nav-item active" onClick={() => navigate('/')}>
           <Home size={20} /><span>Home</span>
         </button>
         <button className="nav-item">
