@@ -2,6 +2,7 @@
 .vscode
 .env
 obj/
+bin/
 ./node_modules
 ./overwatchAdapter/.env
 /overwatchAdapter/node_modules/
