@@ -13,8 +13,8 @@ public class User
 
     public User(int userId, string username, string email)
     {
-        UserId = userId;
-        Username = username;
-        Email = email;
+        this.UserId = userId;
+        this.Username = username;
+        this.Email = email;
     }
 }

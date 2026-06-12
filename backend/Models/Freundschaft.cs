@@ -12,8 +12,8 @@ public class Freundschaft
 
     public Freundschaft(int requesterId, int addresseeId, string status)
     {
-        RequesterId = requesterId;
-        AddresseeId = addresseeId;
-        Status = status;
+        this.RequesterId = requesterId;
+        this.AddresseeId = addresseeId;
+        this.Status = status;
     }
 }

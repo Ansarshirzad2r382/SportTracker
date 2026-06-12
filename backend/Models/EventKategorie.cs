@@ -12,8 +12,8 @@ public class EventKategorie
     public EventKategorie(int categoryId, string name, string metricUnit, string? description = null)
     {
         this.CategoryId = categoryId;
-        Name = name;
-        MetricUnit = metricUnit;
-        Description = description;
+        this.Name = name;
+        this.MetricUnit = metricUnit;
+        this.Description = description;
     }
 }
