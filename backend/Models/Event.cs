@@ -15,4 +15,14 @@ public class Event
     public DateTime EndDate { get; set; }
 
     public ICollection<EventTeilnahme> Teilnahmen { get; set; } = [];
+
+    public Event(int eventId, int categoryId, int creatorId, int targetValue, DateTime startDate, DateTime endDate)
+    {
+        this.EventId = eventId;
+        this.CategoryId = categoryId;
+        this.CreatorId = creatorId;
+        this.TargetValue = targetValue;
+        this.StartDate = startDate;
+        this.EndDate = endDate;
+    }
 }

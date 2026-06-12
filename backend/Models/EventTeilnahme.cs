@@ -10,4 +10,12 @@ public class EventTeilnahme
 
     public int CurrentScore { get; set; }
     public DateTime JoinedAt { get; set; }
+
+    public EventTeilnahme(int eventId, int userId, int currentScore, DateTime joinedAt)
+    {
+        this.EventId = eventId;
+        this.UserId = userId;
+        this.CurrentScore = currentScore;
+        this.JoinedAt = joinedAt;
+    }
 }

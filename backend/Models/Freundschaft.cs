@@ -9,4 +9,11 @@ public class Freundschaft
     public User Addressee { get; set; } = null!;
 
     public string Status { get; set; } = string.Empty;
+
+    public Freundschaft(int requesterId, int addresseeId, string status)
+    {
+        RequesterId = requesterId;
+        AddresseeId = addresseeId;
+        Status = status;
+    }
 }

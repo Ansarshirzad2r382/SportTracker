@@ -8,4 +8,12 @@ public class EventKategorie
     public string? Description { get; set; }
 
     public ICollection<Event> Events { get; set; } = [];
+
+    public EventKategorie(int categoryId, string name, string metricUnit, string? description = null)
+    {
+        this.CategoryId = categoryId;
+        Name = name;
+        MetricUnit = metricUnit;
+        Description = description;
+    }
 }

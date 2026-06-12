@@ -10,4 +10,11 @@ public class User
     public ICollection<Freundschaft> EmpfangeneFreundschaften { get; set; } = [];
     public ICollection<Event> ErstellteEvents { get; set; } = [];
     public ICollection<EventTeilnahme> Teilnahmen { get; set; } = [];
+
+    public User(int userId, string username, string email)
+    {
+        UserId = userId;
+        Username = username;
+        Email = email;
+    }
 }
