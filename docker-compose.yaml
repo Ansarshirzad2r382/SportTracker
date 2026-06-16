@@ -1,0 +1,19 @@
+﻿services:
+  db:
+    image: mariadb:12.2.2
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: "Godmaster"
+      MARIADB_USER: "admin"
+      MARIADB_PASSWORD: "cisco"
+      MARIADB_DATABASE: "gameService"
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db:/var/lib/mysql
+      - ./doc/gameservice.sql:/docker-entrypoint-initdb.d/gameservice.sql
+  phpmyadmin:
+    image: phpmyadmin
+    restart: unless-stopped
+    ports:
+      - 8337:80
