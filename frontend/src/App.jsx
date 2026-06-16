@@ -8,15 +8,15 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/*Nur wenn jemand angemeldet ist*/}
+        {/* Nur wenn jemand angemeldet ist */}
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard />
           </ProtectedRoute>
         } />
 
-        {/* oeffentliche Route fuer alle  */}
-        <Route path="/" element={<PlayerSearch />} /> 
+        {/* Öffentliche Routen für alle */}
+        <Route path="/" element={<PlayerSearch />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
     </BrowserRouter>
