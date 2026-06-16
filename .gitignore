@@ -7,4 +7,3 @@ bin/
 ./overwatchAdapter/.env
 /overwatchAdapter/node_modules/
 .vs/
-/db/
