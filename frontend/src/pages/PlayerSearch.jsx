@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { LogIn, Search } from "lucide-react"
-import "./LoginPage.css"
+import "./PlayerSearch.css"
 
-export default function LoginPage() {
+export default function PlayerSearch() {
   const [playerName, setPlayerName] = useState("")
 
   const handleSearch = (event) => {

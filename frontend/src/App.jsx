@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
-import LoginPage from './pages/PlayerSearch'
+import LoginPage from './pages/LoginPage'
 
 function App() {
   return (
