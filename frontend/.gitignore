@@ -25,4 +25,5 @@ dist-ssr
 *.vsidx
 *.wsuo
 *.sqlite
+*.DS_Store
 .vs/
