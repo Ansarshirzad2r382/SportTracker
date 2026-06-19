@@ -2,14 +2,30 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { LogIn, Search } from "lucide-react"
 import "./PlayerSearch.css"
+import OverwatchApiHandler, {ENDPOINTS} from "../tools/OverwatchApiHandler.js";
+import {PlayerBox} from "./PlayerBox.jsx";
 
 export default function PlayerSearch() {
     const [playerName, setPlayerName] = useState("")
+    const [searchResult, setSearchResult] = useState([])
     const navigate = useNavigate()
 
     const handleSearch = (event) => {
         event.preventDefault()
-        console.log("Player search:", playerName)
+        OverwatchApiHandler.GET(ENDPOINTS.SEARCH, playerName).then(results => {
+            if (!results.ok) {
+                throw new Error(`Error: ${results.status} ${results.statusText}`)
+            }
+            return results.json()
+        }).then((responsebody) => {
+            if (responsebody && responsebody.data && Array.isArray(responsebody.data.results)) {
+                setSearchResult(responsebody.data.results)
+            } else {
+                setSearchResult([])
+            }
+        }).catch((error) => {
+            console.error("Suchfehler", error)
+        })
     }
 
     return (
@@ -50,6 +66,21 @@ export default function PlayerSearch() {
                     </div>
                     <button type="submit">Suchen</button>
                 </form>
+            </section>
+            <section className="player-search-result-container">
+                <section className={"player-search-result"}>
+                    {
+                        searchResult.map(player => (
+                            <PlayerBox
+                                key={player.player_id}
+                                name={player.name}
+                                card={player.namecard}
+                                icon={player.avatar}
+                                title={player.title}>
+                            </PlayerBox>
+                        ))
+                    }
+                </section>
             </section>
         </main>
     )
