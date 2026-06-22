@@ -29,7 +29,7 @@ builder.Services.AddAuthentication(options =>
     options.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
     options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
     options.CallbackPath = "/auth/google/callback";
-    options.CorrelationCookie.SameSite = SameSiteMode.Lax;          
+    options.CorrelationCookie.SameSite = SameSiteMode.Lax;
     options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.None;
 });
 
