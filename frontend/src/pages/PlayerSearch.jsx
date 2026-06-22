@@ -117,20 +117,6 @@ export default function PlayerSearch() {
                         ))
                     }
                 </section>
-            <form className="player-search-form" onSubmit={handleSearch}>
-                <label htmlFor="player-name">Player search</label>
-                <div className="search-input-row">
-                    <Search size={20}/>
-                    <input
-                        id="player-name"
-                        type="text"
-                        value={playerName}
-                        onChange={(event) => setPlayerName(event.target.value)}
-                        placeholder="Player name eingeben"
-                    />
-                </div>
-                <button type="submit">Suchen</button>
-            </form>
         </section>
 
     {
