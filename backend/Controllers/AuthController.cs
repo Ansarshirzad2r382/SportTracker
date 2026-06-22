@@ -10,7 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace YourProject.Controllers
+namespace Backend.Controllers
 {
     [ApiController]
     [Route("auth")]
@@ -55,7 +55,7 @@ namespace YourProject.Controllers
                 var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
                 if (user == null)
                 {
-                    _db.Users.Add(new User { Email = email!, Username = name! });
+                    _db.Users.Add(new User(0, name!, email!));
                     await _db.SaveChangesAsync();
                 }
             }
