@@ -9,21 +9,38 @@ const mockEvents = [
   { id: 3, name: "Event DEF" },
 ]
 
+function getEmailFromToken() {
+  try {
+    const token = localStorage.getItem('token')
+    if (!token) return null
+    const payload = JSON.parse(atob(token.split('.')[1]))
+    return payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] ?? payload.email ?? null
+  } catch {
+    return null
+  }
+}
+
 export default function Dashboard() {
   const [notifications, setNotifications] = useState([
     { id: 1, from: "Robin" },
     { id: 2, from: "Moritz" },
   ])
- 
+
   const navigate = useNavigate()
   const [showDropdown, setShowDropdown] = useState(false)
+  const email = getEmailFromToken()
 
   const dismiss = (id) =>
     setNotifications((prev) => prev.filter((n) => n.id !== id))
 
-  const handleLogout = () => {
-    console.log("Spaeter mehr dazu...")
-    // ...
+  const handleLogout = async () => {
+    localStorage.removeItem('token')
+    try {
+      await fetch('http://localhost:5000/auth/logout', { method: 'GET', credentials: 'include' })
+    } catch (_) {
+      // Backend nicht erreichbar – trotzdem ausloggen
+    }
+    navigate('/login')
   }
 
   return (
@@ -46,7 +63,7 @@ export default function Dashboard() {
         <div className="custom-select-container">
           
           <div className="custom-select-trigger" onClick={() => setShowDropdown(!showDropdown)}>
-            <span>Mikey124@myyahoo.com</span>
+            <span>{email ?? 'Kein Benutzer'}</span>
             <span className={`arrow ${showDropdown ? 'open' : ''}`}>▼</span>
           </div>
 
