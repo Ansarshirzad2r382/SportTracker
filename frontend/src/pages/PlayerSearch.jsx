@@ -101,7 +101,7 @@ export default function PlayerSearch() {
             <Users size={20} />
             <span>Freunde</span>
           </button>
-          <button className="nav-item" type="button">
+          <button className="nav-item" type="button" onClick={() => navigate("/profile")}>
             <User size={20} />
             <span>Profil</span>
           </button>

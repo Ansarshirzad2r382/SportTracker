@@ -98,16 +98,16 @@ export default function Dashboard() {
       </div>
 
       <nav className="bottom-nav">
-        <button className="nav-item active" onClick={() => navigate('/')}>
+        <button className="nav-item active" onClick={() => navigate('/dashboard')}>
           <Home size={20} /><span>Home</span>
         </button>
-        <button className="nav-item">
+        <button className="nav-item" onClick={() => navigate('/')}>
           <Search size={20} /><span>Suche</span>
         </button>
         <button className="nav-item">
           <Users size={20} /><span>Freunde</span>
         </button>
-        <button className="nav-item">
+        <button className="nav-item" onClick={() => navigate('/profile')}>
           <User size={20} /><span>Profil</span>
         </button>
       </nav>
