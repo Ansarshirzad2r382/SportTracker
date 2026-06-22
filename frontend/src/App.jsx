@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
-import PlayerSearch from './pages/PlayerSearch.jsx'
+import PlayerSearch from './pages/PlayerSearch'
 
 function App() {
   return (
