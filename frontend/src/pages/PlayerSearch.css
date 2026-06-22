@@ -74,7 +74,34 @@
   transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
 
-.login-link:hover {
+.player-user-link {
+  min-height: 44px;
+  max-width: min(320px, 48vw);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  padding: 0 18px;
+  background: rgba(10, 10, 10, 0.62);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+.player-user-link span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.login-link:hover,
+.player-user-link:hover {
   border-color: #2563eb;
   background: rgba(37, 99, 235, 0.22);
   transform: translateY(-1px);
@@ -90,7 +117,7 @@
   align-items: center;
   justify-content: center;
   gap: 28px;
-  padding: 2rem;
+  padding: 2rem 2rem 6.5rem;
   text-align: center;
 }
 
@@ -169,24 +196,31 @@
   transform: translateY(-1px);
 }
 
+.player-search-page .bottom-nav {
+  z-index: 2;
+  flex-shrink: 0;
+}
+
 @media (max-width: 640px) {
   .player-search-header {
     padding: 1rem;
   }
 
   .logo-placeholder,
-  .login-link {
+  .login-link,
+  .player-user-link {
     min-height: 40px;
     border-radius: 10px;
     font-size: 14px;
   }
 
-  .login-link {
+  .login-link,
+  .player-user-link {
     padding: 0 12px;
   }
 
   .player-search-content {
-    padding: 1rem;
+    padding: 1rem 1rem 5.75rem;
   }
 
   .player-search-form {

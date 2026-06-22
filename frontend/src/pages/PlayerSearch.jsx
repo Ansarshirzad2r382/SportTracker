@@ -1,9 +1,40 @@
-import { useState } from "react"
-import { LogIn, Search } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Home, LogIn, Search, User, Users } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 import "./PlayerSearch.css"
 
+const getLoggedInUser = async () => {
+  const storedUser = localStorage.getItem("loggedInUser")
+
+  if (!storedUser) {
+    return null
+  }
+
+  try {
+    return JSON.parse(storedUser)
+  } catch {
+    return { name: storedUser }
+  }
+}
+
 export default function PlayerSearch() {
+  const navigate = useNavigate()
   const [playerName, setPlayerName] = useState("")
+  const [loggedInUser, setLoggedInUser] = useState(null)
+
+  useEffect(() => {
+    let isMounted = true
+
+    getLoggedInUser().then((user) => {
+      if (isMounted) {
+        setLoggedInUser(user)
+      }
+    })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   const handleSearch = (event) => {
     event.preventDefault()
@@ -24,10 +55,17 @@ export default function PlayerSearch() {
       <header className="player-search-header">
         <div className="logo-placeholder">Logo</div>
 
-        <button className="login-link" type="button">
-          <LogIn size={20} />
-          <span>Login</span>
-        </button>
+        {loggedInUser ? (
+          <button className="player-user-link" type="button" onClick={() => navigate("/dashboard")}>
+            <User size={20} />
+            <span>{loggedInUser.name}</span>
+          </button>
+        ) : (
+          <button className="login-link" type="button">
+            <LogIn size={20} />
+            <span>Login</span>
+          </button>
+        )}
       </header>
 
       <section className="player-search-content">
@@ -48,6 +86,27 @@ export default function PlayerSearch() {
           <button type="submit">Suchen</button>
         </form>
       </section>
+
+      {loggedInUser && (
+        <nav className="bottom-nav">
+          <button className="nav-item" type="button" onClick={() => navigate("/dashboard")}>
+            <Home size={20} />
+            <span>Home</span>
+          </button>
+          <button className="nav-item active" type="button" onClick={() => navigate("/")}>
+            <Search size={20} />
+            <span>Suche</span>
+          </button>
+          <button className="nav-item" type="button">
+            <Users size={20} />
+            <span>Freunde</span>
+          </button>
+          <button className="nav-item" type="button">
+            <User size={20} />
+            <span>Profil</span>
+          </button>
+        </nav>
+      )}
     </main>
   )
 }
