@@ -21,16 +21,16 @@ builder.Services.AddAuthentication(options =>
 })
 .AddCookie("Cookies", options =>
 {
-    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SameSite = SameSiteMode.Lax;
     options.Cookie.SecurePolicy = CookieSecurePolicy.None;
 })
 .AddGoogle("Google", options =>
 {
     options.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
     options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
-    options.CallbackPath = "/auth/google/callback"; // muss so in der Google Console eingetragen sein
-    options.CorrelationCookie.SameSite = SameSiteMode.Lax;           // Fix: None ohne Secure wird von Chrome blockiert
-    options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.None; // HTTP erlaubt (Entwicklung)
+    options.CallbackPath = "/auth/google/callback";
+    options.CorrelationCookie.SameSite = SameSiteMode.Lax;          
+    options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.None;
 });
 
 // CORS – damit React (Port 5173) mit Backend (Port 5000) reden darf

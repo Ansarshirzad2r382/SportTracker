@@ -50,13 +50,18 @@ namespace YourProject.Controllers
             var email = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
             var name = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 
-            // User in DB suchen oder neu anlegen
-            var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
-            if (user == null)
+            try
             {
-                user = new User { Email = email!, Username = name! };
-                _db.Users.Add(user);
-                await _db.SaveChangesAsync();
+                var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
+                if (user == null)
+                {
+                    _db.Users.Add(new User { Email = email!, Username = name! });
+                    await _db.SaveChangesAsync();
+                }
+            }
+            catch
+            {
+                // DB nicht erreichbar – Login trotzdem fortsetzen
             }
 
             // Eigenen JWT Token generieren
