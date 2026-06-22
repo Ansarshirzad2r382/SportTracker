@@ -119,28 +119,26 @@ export default function PlayerSearch() {
                 </section>
         </section>
 
-    {
-        loggedInUser && (
-            <nav className="bottom-nav">
-                <button className="nav-item" type="button" onClick={() => navigate("/dashboard")}>
-                    <Home size={20}/>
-                    <span>Home</span>
-                </button>
-                <button className="nav-item active" type="button" onClick={() => navigate("/")}>
-                    <Search size={20}/>
-                    <span>Suche</span>
-                </button>
-                <button className="nav-item" type="button">
-                    <Users size={20}/>
-                    <span>Freunde</span>
-                </button>
-                <button className="nav-item" type="button">
-                    <User size={20}/>
-                    <span>Profil</span>
-                </button>
-            </nav>
-        )
-    }
-</main>
-)
+      {loggedInUser && (
+        <nav className="bottom-nav">
+          <button className="nav-item" type="button" onClick={() => navigate("/dashboard")}>
+            <Home size={20} />
+            <span>Home</span>
+          </button>
+          <button className="nav-item active" type="button" onClick={() => navigate("/")}>
+            <Search size={20} />
+            <span>Suche</span>
+          </button>
+          <button className="nav-item" type="button">
+            <Users size={20} />
+            <span>Freunde</span>
+          </button>
+          <button className="nav-item" type="button" onClick={() => navigate("/profile")}>
+            <User size={20} />
+            <span>Profil</span>
+          </button>
+        </nav>
+      )}
+    </main>
+  )
 }
