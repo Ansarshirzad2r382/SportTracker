@@ -24,7 +24,10 @@ export default function PlayerSearch() {
             />
 
             <header className="player-search-header">
-                <div className="logo-placeholder">Logo</div>
+                <div className="logo-placeholder">
+                    <img src="https://img.icons8.com/?id=4Cs7TqA0Am41&format=png&size=512" alt="Overwatch Logo" />
+                </div>
+
                 <button className="login-link" type="button" onClick={() => navigate("/login")}>
                     <LogIn size={20} />
                     <span>Login</span>

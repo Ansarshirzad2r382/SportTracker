@@ -45,6 +45,11 @@ body {
     opacity: 0.3;
 }
 
+.logo img {
+    height: 45px;
+    width: auto;
+}
+
 .dashboard {
     position: relative;
     z-index: 1;

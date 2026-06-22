@@ -56,8 +56,11 @@ export default function Dashboard() {
       />
 
       <header className="topbar">
+        <div className="logo">
+          <img src="https://img.icons8.com/?id=4Cs7TqA0Am41&format=png&size=512" alt="Overwatch Logo" />
+        </div>
         <div>
-          <h1 className="greeting">Hi, Player</h1> {/* Spaeter kommt hier den Name der eingeloggten Person */}
+          <h1 className="greeting">Hi, Player</h1>
         </div>
 
         <div className="custom-select-container">
