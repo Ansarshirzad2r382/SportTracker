@@ -1,152 +1,262 @@
-# SportTracker
+# Overwatch Tracker
 
-Willkommen bei **SportTracker** – einem Projekt, das wir gemeinsam im Rahmen des Fachs **Softwareentwicklung** umsetzen.
+Overwatch Tracker ist eine Webanwendung zum Suchen und Anzeigen von Overwatch-Spielerprofilen. Das Frontend bietet eine Player Search und eine PlayerStatPage, auf der Profilinformationen, Ranks, Hero-Playtime und erweiterte Statistiken wie Winrate, KDA, Damage, Healing und Hero-spezifische Durchschnittswerte angezeigt werden.
 
-Die Idee ist simpel: Eine Webplattform, die Spielerstatistiken trackt – und zwar nicht nur für ein Spiel, sondern für viele. Wir fangen klein an und bauen das Ding Schritt für Schritt aus.
+Das Projekt besteht aus drei Teilen:
 
----
+- React/Vite Frontend fuer Suche, Login, Dashboard und PlayerStats
+- OverwatchAdapterService als Express API zwischen Frontend, Datenbank und externer Overwatch API
+- ASP.NET Core Backend fuer Google Login, JWT und geschuetzte App-Bereiche
 
-## Was soll die Seite können?
+## Features
 
-Im Kern geht es darum, dass Spieler ihre Performance nachverfolgen können. Dazu gehören Dinge wie Rang-Verlauf, Match-Historien, Kills, Deaths, Gold – also alles, was man nach einem Match wissen will.
+- Overwatch-Spieler nach Namen suchen
+- Spielerprofil mit Avatar, Namecard, Titel und Endorsement anzeigen
+- Competitive Ranks fuer Tank, Damage und Support darstellen
+- Hero-Playtime anzeigen
+- Erweiterte PlayerStats ueber `/api/players/stats/summary/:playerId`
+- General Stats mit Games, Wins, Losses, Winrate, KDA und Time Played
+- Total- und Average-Werte fuer Eliminations, Assists, Deaths, Damage und Healing
+- Rollen-Stats fuer Tank, Damage und Support
+- Hero-Stats-Tabelle mit Games, W/L, Winrate, KDA, Time, Avg Elims, Avg Damage und Avg Healing
+- Google OAuth Login mit JWT fuer geschuetzte Seiten
+- MariaDB mit phpMyAdmin fuer lokale Entwicklung
 
-Das System ist modular aufgebaut, damit wir neue Spiele später einfach ergänzen können, ohne alles neu schreiben zu müssen.
+## Technologie-Stack
 
----
-
-## Für welche Spiele?
-
-Aktuell orientieren wir uns an **League of Legends(Als Bsp genommen)** als Einstieg, weil das Datenmodell dort schön passt. Geplant sind u. a.:
-
-- League of Legends *(erster Fokus)*
-- Valorant
-- CS2
-- Apex Legends
-- *...und was noch dazukommt*
-
----
-
-## Technologien
-
-Hier ist, womit wir arbeiten:
-
-**Backend**
-- [ASP.NET Core](https://learn.microsoft.com/aspnet/core) (.NET) – REST API, Routing, Business Logic
-- **Entity Framework Core** – ORM für die Datenbankanbindung, Migrationen und Modellierung der Entitäten
-
-**Frontend**
-- **React** – komponentenbasiertes UI
-- **HTML / CSS** – Grundstruktur & Styling
-
-**Datenbank**
-- Über Entity Framework Core verwaltet – Modelle werden direkt aus den C#-Klassen generiert (Code-First)
-
----
-
-## Wichtige Entitäten (Auszug)
-
-Hier ein kurzer Überblick über die zentralen Bausteine unseres Datenmodells – nicht alle, aber die, die den Kern des Systems ausmachen.
-
-### `Spieler`
-Der registrierte Nutzer auf der Plattform. Speichert spielbezogene Kennzahlen wie **Kills**, **Deaths** und **Gold** pro Match.
-
-### `Summoner`
-Der In-Game-Account des Spielers. Hier hängen der aktuelle **Rank** sowie die **Historie** vergangener Ränge dran – also das, was man auf Profil-Seiten typischerweise sieht.
-
-```csharp
-public class Summoner
-{
-    public int Id { get; set; }
-    public string Rank { get; set; }
-    public string Zusatz { get; set; }
-    public List<string> Historie { get; set; }
-
-    public int SpielerId { get; set; }
-    public Spieler Spieler { get; set; }
-}
-```
-
-### `Spiel`
-Repräsentiert ein einzelnes Match. Enthält **Zeit** (Zeitstempel / Dauer) und eine Referenz auf die zugehörige **Statistik**.
-
-### `Champion`
-Verknüpft einen Spieler mit dem gewählten Charakter in einem Match. Bildet die Grundlage für champion-spezifische Auswertungen.
-
-> Die restlichen Entitäten (Farm, Produkte, NPCs, ...) folgen im weiteren Verlauf des Projekts.
-
----
-
-## Authentifizierung (Login)
-
-Die Plattform verwendet **Google OAuth 2.0** für die Anmeldung.
-
-### Flow
-
-1. User klickt auf "Mit Google anmelden"
-2. Weiterleitung zu Google → User meldet sich an
-3. Backend empfängt Google-Antwort, liest Name & E-Mail aus
-4. User wird in der Datenbank gespeichert (falls neu)
-5. Backend stellt einen **JWT Token** aus
-6. Frontend speichert den Token in `localStorage`
-7. Geschützte Seiten (z. B. Dashboard) prüfen ob ein Token vorhanden ist
-
-### Wichtige Dateien
-
-| Datei | Beschreibung |
-|-------|-------------|
-| `backend/Controllers/AuthController.cs` | Google OAuth Endpoints (`/auth/google/login`, `/auth/google/finalize`, `/auth/logout`) |
-| `backend/Program.cs` | Auth-Konfiguration (Cookie, Google, CORS) |
-| `backend/appsettings.Development.json` | Secrets (Google ClientId/Secret, JWT Key) – nicht im Repository |
-| `frontend/src/pages/LoginPage.jsx` | Login-Seite, liest JWT aus URL nach OAuth-Redirect |
-| `frontend/src/components/ProtectedRoute.jsx` | Schützt Routen – leitet zu `/login` weiter wenn kein Token vorhanden |
-| `frontend/src/pages/Dashboard.jsx` | Dashboard mit Logout-Funktion und E-Mail-Anzeige |
-
----
-
-## Wo stehen wir gerade?
-
-- [x] Projektidee & Scope definiert
-- [x] Erstes Datenmodell skizziert
-- [x] ASP.NET Core API – Authentifizierung (Google OAuth + JWT)
-- [x] React Frontend – LoginPage, Dashboard, PlayerSearch
-- [x] Spieler-Dashboard (Grundstruktur)
-- [x] Spielersuche via Overwatch API
-- [ ] API-Anbindung (z. B. Riot API für LoL)
-- [ ] Erweiterung auf weitere Spiele
-
----
+| Bereich | Technologie |
+|---|---|
+| Frontend | React, Vite, React Router, CSS, lucide-react |
+| Overwatch Adapter | Node.js, Express, MariaDB Client |
+| Backend | ASP.NET Core 8, Entity Framework Core, Google OAuth, JWT |
+| Datenbank | MariaDB |
+| Tools | Docker Compose, phpMyAdmin |
 
 ## Projektstruktur
 
-```
-sportracker/
-├── README.md
-├── .gitignore
-├── /backend                        ← ASP.NET Core API
-│   ├── /Controllers
-│   │   └── AuthController.cs       ← Google OAuth + JWT
-│   ├── /Models                     ← EF Core Entitäten
-│   ├── /Data
-│   │   └── AppDbContext.cs         ← DbContext
-│   ├── appsettings.json
-│   └── appsettings.Development.json ← Secrets (nicht im Repo)
-├── /frontend                       ← React App (Vite)
-│   ├── /src
-│   │   ├── /components
-│   │   │   └── ProtectedRoute.jsx  ← Route-Schutz
-│   │   ├── /pages
-│   │   │   ├── LoginPage.jsx       ← Google Login
-│   │   │   ├── Dashboard.jsx       ← Hauptseite (geschützt)
-│   │   │   ├── PlayerSearch.jsx    ← Spielersuche
-│   │   │   └── PlayerBox.jsx       ← Suchergebnis-Komponente
-│   │   ├── /tools
-│   │   │   └── OverwatchApiHandler.js ← API-Client
-│   │   └── App.jsx                 ← Routing
+```text
+SportTracker/
+├── backend/                 # ASP.NET Core Backend fuer Auth und geschuetzte Bereiche
+│   ├── Controllers/
+│   ├── Data/
+│   ├── Models/
+│   └── Program.cs
+├── frontend/                # React/Vite Frontend
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   └── tools/
 │   └── vite.config.js
-└── /doc                            ← Dokumentation & Diagramme
+├── overwatchAdapter/        # Express Service fuer Overwatch-Spielerdaten
+│   ├── src/controller/
+│   ├── app.js
+│   └── db.js
+├── doc/                     # SQL-Dateien und Diagramme
+├── docker-compose.yaml      # MariaDB + phpMyAdmin
+├── mermaid.md               # Sequence Diagramm
+└── README.md
 ```
 
----
----
+## Architektur
 
-*Fach: Softwareentwicklung – Stand: März 2026*
+Das Frontend spricht fuer Overwatch-Daten nicht direkt mit der externen API. Stattdessen leitet Vite alle Requests unter `/api` an den OverwatchAdapterService auf `localhost:8081` weiter. Der Adapter ruft die externe Overwatch API ab, formatiert die Daten fuer das Frontend und speichert relevante Profil- und Rank-Daten in MariaDB.
+
+Das ASP.NET Core Backend ist getrennt davon fuer Authentifizierung zustaendig. Der Google Login erzeugt nach erfolgreicher Anmeldung einen JWT, den das Frontend fuer geschuetzte Seiten verwenden kann.
+
+## Sequence Diagramm
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant FE as Frontend
+    participant BE as Backend (Auth/Event)
+    participant OA as OverwatchAdapterService
+    participant API as External Overwatch API
+    participant DB as MariaDB
+
+    Note over FE, API: Szenario 1: Spielersuche
+    FE->>OA: GET /api/players/search/:query
+    OA->>API: Suche Spieler nach Name
+    API-->>OA: Spieler-Suchergebnisse
+    OA-->>FE: Formatierte Suchergebnisse
+
+    Note over FE, DB: Szenario 2: PlayerStatPage laden
+    FE->>OA: GET /api/players/summary/:playerId
+    OA->>API: Lade Profil, Ranks und Playtime
+    API-->>OA: Summary JSON
+    OA->>DB: Speichere/aktualisiere Player und Competitive Ranks
+    OA-->>FE: Profil- und Rank-Daten
+
+    FE->>OA: GET /api/players/stats/summary/:playerId
+    OA->>API: Lade erweiterte Statistiken
+    API-->>OA: General, Roles und Heroes Stats
+    OA-->>FE: Erweiterte PlayerStats
+
+    Note over FE, BE: Szenario 3: Login
+    FE->>BE: GET /auth/google/login
+    BE->>API: Google OAuth Flow
+    API-->>BE: Google User Claims
+    BE->>DB: User anlegen oder aktualisieren
+    BE-->>FE: Redirect mit JWT
+```
+
+## API-Uebersicht
+
+### OverwatchAdapterService
+
+Base URL in der lokalen Entwicklung: `http://localhost:8081`
+
+| Methode | Route | Beschreibung |
+|---|---|---|
+| GET | `/api/players/search/:query` | Sucht Overwatch-Spieler nach Namen |
+| GET | `/api/players/summary/:playerId` | Laedt Profil, Namecard, Avatar, Endorsement, Competitive Ranks und Playtime |
+| GET | `/api/players/stats/summary/:playerId` | Laedt erweiterte Statistiken fuer General, Roles und Heroes |
+
+### ASP.NET Core Backend
+
+Base URL in der lokalen Entwicklung: `http://localhost:5000`
+
+| Methode | Route | Beschreibung |
+|---|---|---|
+| GET | `/auth/google/login` | Startet den Google OAuth Login |
+| GET | `/auth/google/finalize` | Finalisiert den OAuth Flow und erzeugt den JWT |
+| GET | `/auth/logout` | Meldet den Benutzer ab |
+
+## Lokales Setup
+
+### Voraussetzungen
+
+- Node.js
+- npm
+- .NET 8 SDK
+- Docker und Docker Compose
+
+### 1. Datenbank starten
+
+```bash
+docker compose up -d
+```
+
+MariaDB laeuft danach lokal auf Port `3306`.
+phpMyAdmin ist unter `http://localhost:8337` erreichbar.
+
+### 2. OverwatchAdapter konfigurieren
+
+Lege in `overwatchAdapter/` eine `.env` Datei an. Als Vorlage kann `.env.example` verwendet werden.
+
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=admin
+DB_PASSWORD=cisco
+DB_NAME=gameService
+```
+
+Dann Dependencies installieren und Service starten:
+
+```bash
+cd overwatchAdapter
+npm install
+node app.js
+```
+
+Der Adapter laeuft auf `http://localhost:8081`.
+
+### 3. Backend konfigurieren
+
+In `backend/appsettings.Development.json` muessen fuer den Google Login die OAuth- und JWT-Werte gesetzt werden:
+
+```json
+{
+  "Authentication": {
+    "Google": {
+      "ClientId": "GOOGLE_CLIENT_ID",
+      "ClientSecret": "GOOGLE_CLIENT_SECRET"
+    },
+    "Jwt": {
+      "Key": "MINDESTENS_LANGER_SECRET_KEY",
+      "Issuer": "SportTracker",
+      "Audience": "SportTrackerUsers"
+    }
+  }
+}
+```
+
+Backend starten:
+
+```bash
+cd backend
+dotnet run
+```
+
+Das Backend laeuft standardmaessig auf `http://localhost:5000`.
+
+### 4. Frontend starten
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Das Frontend ist danach unter `http://localhost:5173` erreichbar.
+
+## Wichtige Frontend-Seiten
+
+| Datei | Aufgabe |
+|---|---|
+| `frontend/src/pages/PlayerSearch.jsx` | Suche nach Overwatch-Spielern |
+| `frontend/src/pages/PlayerStatPage.jsx` | Detailseite fuer Profil, Ranks und erweiterte PlayerStats |
+| `frontend/src/pages/LoginPage.jsx` | Google Login und JWT-Uebernahme |
+| `frontend/src/pages/Dashboard.jsx` | Geschuetzter Bereich nach Login |
+| `frontend/src/components/ProtectedRoute.jsx` | Route Guard fuer eingeloggte Benutzer |
+| `frontend/src/tools/OverwatchApiHandler.js` | API-Client fuer OverwatchAdapter-Routen |
+
+## PlayerStats
+
+Die PlayerStatPage nutzt zwei Datenquellen:
+
+1. `/api/players/summary/:playerId`
+   - Profilname
+   - Avatar
+   - Namecard
+   - Endorsement
+   - Competitive Ranks
+   - Hero-Playtime
+
+2. `/api/players/stats/summary/:playerId`
+   - `general`: Gesamtstatistiken
+   - `roles`: Tank, Damage und Support
+   - `heroes`: Statistiken pro Hero
+
+Die erweiterten Stats werden getrennt geladen, damit das Profil weiterhin angezeigt werden kann, auch wenn die Statistikdaten spaeter oder gar nicht verfuegbar sind.
+
+## Build
+
+Frontend Build:
+
+```bash
+cd frontend
+npm run build
+```
+
+Backend Build:
+
+```bash
+cd backend
+dotnet build
+```
+
+## Aktueller Stand
+
+- Player Search funktioniert ueber den OverwatchAdapterService
+- PlayerStatPage zeigt Profil, Ranks und Hero-Playtime
+- Erweiterte PlayerStats sind im Frontend eingebunden
+- Google Login und geschuetzte Routen sind vorbereitet
+- MariaDB und phpMyAdmin koennen lokal per Docker Compose gestartet werden
+
+## Hinweise
+
+- Secrets wie Google Client Secret oder JWT Key sollten nicht committed werden.
+- Die Vite Proxy-Konfiguration leitet `/api` automatisch an `http://localhost:8081` weiter.
+- Fuer die PlayerStats muss der OverwatchAdapterService laufen, sonst bleiben Suche und Statistikdaten leer.
