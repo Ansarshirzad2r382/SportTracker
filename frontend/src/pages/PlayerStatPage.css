@@ -3,7 +3,7 @@
   z-index: 1;
   width: 100%;
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
   background: #090a0d;
   color: #ffffff;
   padding-bottom: 48px;
@@ -32,6 +32,7 @@
 
 .player-stat-header,
 .player-stat-profile,
+.stats-summary-section,
 .player-stat-grid,
 .player-stat-message {
   position: relative;
@@ -174,6 +175,19 @@
   margin: 0 auto;
 }
 
+.stats-summary-section {
+  width: min(1120px, calc(100% - 48px));
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: 20px;
+  margin: 0 auto 20px;
+}
+
+.general-stats-panel,
+.hero-stats-panel {
+  grid-column: 1 / -1;
+}
+
 .stat-panel {
   min-width: 0;
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -197,6 +211,186 @@
   color: #ffffff;
   font-size: 24px;
   line-height: 1.1;
+  font-weight: 900;
+}
+
+.stat-card-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.stat-card {
+  min-height: 92px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  text-align: left;
+}
+
+.stat-card span,
+.stat-line span,
+.role-stat-metrics span,
+.role-stat-breakdown small {
+  color: #aeb8c7;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.stat-card strong {
+  color: #ffffff;
+  font-size: 25px;
+  line-height: 1.05;
+  font-weight: 900;
+}
+
+.stat-breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.stat-breakdown {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.stat-breakdown h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 900;
+  text-align: left;
+}
+
+.stat-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stat-line strong {
+  color: #fbbf24;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.role-stat-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.role-stat-card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.role-stat-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fbbf24;
+}
+
+.role-stat-heading strong {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.role-stat-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.role-stat-metrics span {
+  border-radius: 8px;
+  padding: 7px 9px;
+  background: rgba(0, 0, 0, 0.22);
+  color: #e5e7eb;
+}
+
+.role-stat-breakdown {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.role-stat-breakdown div {
+  min-width: 0;
+  border-radius: 8px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.22);
+  text-align: left;
+}
+
+.role-stat-breakdown small {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.role-stat-breakdown strong {
+  color: #fbbf24;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.hero-stats-table-wrap {
+  max-height: 520px;
+  overflow: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.hero-stats-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.hero-stats-table th,
+.hero-stats-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  white-space: nowrap;
+}
+
+.hero-stats-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: rgba(8, 10, 16, 0.96);
+  color: #fbbf24;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.hero-stats-table td {
+  color: #e5e7eb;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.hero-stats-table td:first-child {
+  color: #ffffff;
   font-weight: 900;
 }
 
@@ -313,6 +507,7 @@
   }
 
   .player-stat-profile,
+  .stats-summary-section,
   .player-stat-grid,
   .player-stat-message {
     width: calc(100% - 32px);
@@ -338,6 +533,14 @@
 
   .player-stat-grid {
     grid-template-columns: 1fr;
+  }
+
+  .stats-summary-section {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .rank-item {
@@ -366,5 +569,19 @@
 
   .stat-panel {
     padding: 16px;
+  }
+
+  .stat-card-grid,
+  .stat-breakdown-grid,
+  .role-stat-breakdown {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    min-height: 78px;
+  }
+
+  .stat-card strong {
+    font-size: 22px;
   }
 }
