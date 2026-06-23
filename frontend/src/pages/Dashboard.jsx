@@ -118,7 +118,7 @@ export default function Dashboard() {
             </div>
 
             <nav className="bottom-nav">
-                <button className="nav-item active" onClick={() => navigate('/')}>
+                <button className="nav-item active" onClick={() => navigate("/dashboard")}>
                     <Home size={20} /><span>Home</span>
                 </button>
                 <button className="nav-item">
