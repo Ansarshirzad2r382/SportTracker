@@ -5,9 +5,20 @@ import "./UserProfilePage.css"
 
 const mockUser = {
   name: "Player",
-  email: "Mikey124@myyahoo.com",
+    email: getEmailFromToken(),
   friends: ["Robin", "Moritz", "Alex"],
   events: ["Event ABC", "Event XYZ", "Event DEF"],
+}
+
+function getEmailFromToken() {
+    try {
+        const token = localStorage.getItem('token')
+        if (!token) return null
+        const payload = JSON.parse(atob(token.split('.')[1]))
+        return payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] ?? payload.email ?? null
+    } catch {
+        return null
+    }
 }
 
 const getLoggedInUser = async () => {
@@ -54,8 +65,15 @@ export default function UserProfilePage() {
       />
 
       <header className="profile-header">
-        <h1>Profil</h1>
-        <div className="profile-logo-placeholder">Logo</div>
+            <div className="Logo-container">
+                  
+                  <div className="logo">
+                      <img src="https://img.icons8.com/?id=4Cs7TqA0Am41&format=png&size=512" alt="Overwatch Logo" />
+                  </div>
+
+                  <h1>Profil</h1>
+            </div>
+            
       </header>
 
       <section className="profile-content" aria-label="User profile">
@@ -64,7 +82,7 @@ export default function UserProfilePage() {
             <User size={38} />
           </div>
           <div>
-            <h2>{user.name}</h2>
+            <p><b>{user.name}</b></p>
             <p>
               <Mail size={17} />
               <span>{user.email}</span>
