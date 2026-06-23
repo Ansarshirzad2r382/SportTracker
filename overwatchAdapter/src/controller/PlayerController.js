@@ -72,7 +72,10 @@ async function summary(req, res) {
         await connection.commit();
         return res.status(200).json(data);
     } catch (e) {
+        if (connection) await connection.rollback();
         throw e;
+    } finally {
+        if (connection) connection.release();
     }
 }
 
@@ -90,6 +93,15 @@ async function stats(req, res) {
         const data = await result.json();
 
         connection = await db.pool.getConnection();
+
+        const playerRows = await connection.query(
+            "SELECT PlayerId FROM PLAYER WHERE PlayerId = ?",
+            [playerId]
+        );
+        if (playerRows.length === 0) {
+            return res.status(404).json({ error: "Player not found. Fetch the player summary first via /api/players/summary/:playerId" });
+        }
+
         await connection.beginTransaction();
 
         const snapshotRes = await connection.query(
