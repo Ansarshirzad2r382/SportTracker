@@ -8,6 +8,7 @@ app.use(express.json());
 
 app.get('/api/players/search/:query', PlayerController.searchPlayer);
 app.get('/api/players/summary/:playerId', PlayerController.summary);
+app.get('/api/players/stats/summary/:playerId', PlayerController.stats);
 
 app.listen(PORT, ()=>{
     console.log(`Server running un port ${PORT}`)
