@@ -5,6 +5,7 @@
 export const ENDPOINTS = Object.freeze({
     SEARCH: "search",
     SUMMARY: "summary",
+    STATS_SUMMARY: "stats/summary",
 });
 
 export default class OverwatchApiHandler {
