@@ -31,7 +31,7 @@ namespace Backend.Controllers
         {
             var properties = new AuthenticationProperties
             {
-                RedirectUri = "/auth/google/finalize" // Fix: anderer Pfad als CallbackPath, sonst fängt Middleware ab
+                RedirectUri = "/auth/google/finalize"
             };
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }
