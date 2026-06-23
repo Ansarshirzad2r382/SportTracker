@@ -8,6 +8,23 @@
     border: 2px solid #0b326b; /* Blauer Rahmen aus dem Bild */
     box-sizing: border-box;
     overflow: hidden;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.playerCardContainer:hover,
+.playerCardContainer:focus-visible {
+    border-color: #2563eb;
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.28);
+    transform: translateY(-1px);
+}
+
+.playerCardContainer:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.35);
+    outline-offset: 3px;
 }
 
 /* Linker Bereich für das Icon (Dunkelblau) */
@@ -57,7 +74,7 @@
     font-size: 2rem;
     text-transform: uppercase;
     color: #000000;
-    letter-spacing: 1px;
+    letter-spacing: 0;
 }
 
 .playerTitle {

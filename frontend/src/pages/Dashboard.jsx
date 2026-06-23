@@ -37,7 +37,7 @@ export default function Dashboard() {
         localStorage.removeItem('token')
         try {
             await fetch('http://localhost:5000/auth/logout', { method: 'GET', credentials: 'include' })
-        } catch (_) {
+        } catch {
             // Backend nicht erreichbar – trotzdem ausloggen
         }
         navigate('/login')

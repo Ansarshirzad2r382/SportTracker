@@ -5,20 +5,6 @@ import "./PlayerSearch.css"
 import OverwatchApiHandler, { ENDPOINTS } from "../tools/OverwatchApiHandler.js";
 import { PlayerBox } from "./PlayerBox.jsx";
 
-const getLoggedInUser = async () => {
-    const storedUser = localStorage.getItem("loggedInUser")
-
-    if (!storedUser) {
-        return null
-    }
-
-    try {
-        return JSON.parse(storedUser)
-    } catch {
-        return {name: storedUser}
-    }
-}
-
 export default function PlayerSearch() {
     const [playerName, setPlayerName] = useState("")
     const [searchResult, setSearchResult] = useState([])
@@ -40,6 +26,10 @@ export default function PlayerSearch() {
         }).catch((error) => {
             console.error("Suchfehler", error)
         })
+    }
+
+    const openPlayerStats = (player) => {
+        navigate(`/players/${player.player_id}`, {state: {player}})
     }
 
     return (
@@ -91,6 +81,7 @@ export default function PlayerSearch() {
                             card={player.namecard}
                             icon={player.avatar}
                             title={player.title}
+                            onClick={() => openPlayerStats(player)}
                         />
                     ))}
                 </section>

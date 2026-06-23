@@ -1,8 +1,13 @@
 import styles from '../styles/PlayerBox.module.css'
 
-export const PlayerBox = ({name, icon, card, title}) => {
+export const PlayerBox = ({name, icon, card, title, onClick}) => {
     return (
-        <div className={styles.playerCardContainer}>
+        <button
+            className={styles.playerCardContainer}
+            type="button"
+            onClick={onClick}
+            aria-label={`Stats von ${name} anzeigen`}
+        >
             <div className={styles.playerIconSection}>
                 <img src={icon} alt="Player Icon" className={styles.playerIcon}/>
             </div>
@@ -15,6 +20,6 @@ export const PlayerBox = ({name, icon, card, title}) => {
                     {title && <span className={styles.playerTitle}>{title}</span>}
                 </div>
             </div>
-        </div>
+        </button>
     );
 }
