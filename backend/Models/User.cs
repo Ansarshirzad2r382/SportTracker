@@ -11,6 +11,8 @@ public class User
     public ICollection<Event> ErstellteEvents { get; set; } = [];
     public ICollection<EventTeilnahme> Teilnahmen { get; set; } = [];
 
+    public User() { }
+
     public User(int userId, string username, string email)
     {
         this.UserId = userId;

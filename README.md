@@ -76,16 +76,41 @@ Verknüpft einen Spieler mit dem gewählten Charakter in einem Match. Bildet die
 
 ---
 
-## Wo stehen wir gerade?
+## Authentifizierung (Login)
 
-Wir sind am Anfang. Das Datenmodell steht soweit, der Rest ist Work in Progress:
+Die Plattform verwendet **Google OAuth 2.0** für die Anmeldung.
+
+### Flow
+
+1. User klickt auf "Mit Google anmelden"
+2. Weiterleitung zu Google → User meldet sich an
+3. Backend empfängt Google-Antwort, liest Name & E-Mail aus
+4. User wird in der Datenbank gespeichert (falls neu)
+5. Backend stellt einen **JWT Token** aus
+6. Frontend speichert den Token in `localStorage`
+7. Geschützte Seiten (z. B. Dashboard) prüfen ob ein Token vorhanden ist
+
+### Wichtige Dateien
+
+| Datei | Beschreibung |
+|-------|-------------|
+| `backend/Controllers/AuthController.cs` | Google OAuth Endpoints (`/auth/google/login`, `/auth/google/finalize`, `/auth/logout`) |
+| `backend/Program.cs` | Auth-Konfiguration (Cookie, Google, CORS) |
+| `backend/appsettings.Development.json` | Secrets (Google ClientId/Secret, JWT Key) – nicht im Repository |
+| `frontend/src/pages/LoginPage.jsx` | Login-Seite, liest JWT aus URL nach OAuth-Redirect |
+| `frontend/src/components/ProtectedRoute.jsx` | Schützt Routen – leitet zu `/login` weiter wenn kein Token vorhanden |
+| `frontend/src/pages/Dashboard.jsx` | Dashboard mit Logout-Funktion und E-Mail-Anzeige |
+
+---
+
+## Wo stehen wir gerade?
 
 - [x] Projektidee & Scope definiert
 - [x] Erstes Datenmodell skizziert
-- [ ] Datenbankschema & EF-Migrationen aufsetzen
-- [ ] ASP.NET Core API – erste Endpoints
-- [ ] React Frontend – erste Seiten & Komponenten
-- [ ] Spieler-Dashboard bauen
+- [x] ASP.NET Core API – Authentifizierung (Google OAuth + JWT)
+- [x] React Frontend – LoginPage, Dashboard, PlayerSearch
+- [x] Spieler-Dashboard (Grundstruktur)
+- [x] Spielersuche via Overwatch API
 - [ ] API-Anbindung (z. B. Riot API für LoL)
 - [ ] Erweiterung auf weitere Spiele
 
@@ -97,14 +122,28 @@ Wir sind am Anfang. Das Datenmodell steht soweit, der Rest ist Work in Progress:
 sportracker/
 ├── README.md
 ├── .gitignore
-├── /backend             ← ASP.NET Core API
+├── /backend                        ← ASP.NET Core API
 │   ├── /Controllers
-│   ├── /Models          ← EF Core Entitäten
-│   └── /Data            ← DbContext & Migrationen
-├── /frontend            ← React App
-│   ├── /components
-│   └── /pages
-└── /doc                 ← Dokumentation & Diagramme
+│   │   └── AuthController.cs       ← Google OAuth + JWT
+│   ├── /Models                     ← EF Core Entitäten
+│   ├── /Data
+│   │   └── AppDbContext.cs         ← DbContext
+│   ├── appsettings.json
+│   └── appsettings.Development.json ← Secrets (nicht im Repo)
+├── /frontend                       ← React App (Vite)
+│   ├── /src
+│   │   ├── /components
+│   │   │   └── ProtectedRoute.jsx  ← Route-Schutz
+│   │   ├── /pages
+│   │   │   ├── LoginPage.jsx       ← Google Login
+│   │   │   ├── Dashboard.jsx       ← Hauptseite (geschützt)
+│   │   │   ├── PlayerSearch.jsx    ← Spielersuche
+│   │   │   └── PlayerBox.jsx       ← Suchergebnis-Komponente
+│   │   ├── /tools
+│   │   │   └── OverwatchApiHandler.js ← API-Client
+│   │   └── App.jsx                 ← Routing
+│   └── vite.config.js
+└── /doc                            ← Dokumentation & Diagramme
 ```
 
 ---
