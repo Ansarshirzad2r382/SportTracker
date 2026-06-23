@@ -34,12 +34,19 @@ Hier ist, womit wir arbeiten:
 - [ASP.NET Core](https://learn.microsoft.com/aspnet/core) (.NET) – REST API, Routing, Business Logic
 - **Entity Framework Core** – ORM für die Datenbankanbindung, Migrationen und Modellierung der Entitäten
 
+**OverwatchAdapterService**
+- **Node.js / Express** – eigenständiger Microservice für die Overwatch-Anbindung
+- **MariaDB** – speichert Spielerdaten, Competitive Stats und detaillierte Stat-Snapshots
+- **Overfast API** – externe API, von der wir die Spielerdaten ziehen
+
 **Frontend**
 - **React** – komponentenbasiertes UI
 - **HTML / CSS** – Grundstruktur & Styling
 
 **Datenbank**
 - Über Entity Framework Core verwaltet – Modelle werden direkt aus den C#-Klassen generiert (Code-First)
+- `gameService` DB – wird vom OverwatchAdapterService befüllt (Spieler, Ränge, Stat-Snapshots)
+- `eventApp` DB – wird vom Backend verwaltet (User, Events, Teilnahmen)
 
 ---
 
@@ -103,6 +110,69 @@ Die Plattform verwendet **Google OAuth 2.0** für die Anmeldung.
 
 ---
 
+## OverwatchAdapterService
+
+Der OverwatchAdapterService ist unser eigenständiger Node.js-Microservice, der die Kommunikation mit der externen Overfast API übernimmt und die Daten in der `gameService`-Datenbank speichert. Das Frontend redet nicht direkt mit der externen API – alles läuft über diesen Service.
+
+Der Service läuft auf Port **8081**, das Frontend proxied alle `/api/*`-Requests dorthin.
+
+### Endpoints
+
+| Methode | Pfad | Beschreibung |
+|--------|------|-------------|
+| `GET` | `/api/players/search/:query` | Spielersuche über die Overfast API |
+| `GET` | `/api/players/summary/:playerId` | Holt die Profilzusammenfassung eines Spielers und speichert Rank-Daten in der DB |
+| `GET` | `/api/players/stats/summary/:playerId` | Holt detaillierte Spielstatistiken und speichert einen Snapshot in der DB |
+
+### Stats Endpoint im Detail
+
+Den `/api/players/stats/summary/:playerId` Endpoint habe ich im Rahmen von [Issue #30](https://github.com/Ansarshirzad2r382/SportTracker/issues/30) implementiert. Er zieht die vollständigen Statistiken eines Spielers von der Overfast API und schreibt die Daten strukturiert in zwei Tabellen:
+
+- **`STATS_SNAPSHOT`** – Ein Zeitstempel-Eintrag pro Abruf, verknüpft mit dem Spieler
+- **`STAT_BLOCK`** – Die eigentlichen Zahlen pro Kategorie (general, role, hero) – Spiele, Winrate, KDA, Damage, Healing, Eliminations usw.
+
+**Wichtig:** Der Spieler muss vorher mindestens einmal über `/api/players/summary/:playerId` geladen worden sein, damit er in der `PLAYER`-Tabelle existiert. Der Stats-Endpoint gibt sonst eine sprechende 404-Fehlermeldung zurück.
+
+### Datenbankschema (gameService)
+
+```
+PLAYER              – Basisdaten: PlayerId, Username, Avatar, EndorsementLevel
+COMPETITIVE_STAT    – Competitive-Saison pro Plattform (pc/console)
+ROLE_RANK           – Rank pro Rolle (tank/damage/support) je Competitive-Eintrag
+STATS_SNAPSHOT      – Zeitstempel eines Stat-Abrufs, FK auf PLAYER
+STAT_BLOCK          – Detailwerte pro Snapshot: GamesPlayed, Winrate, KDA, Damage, Healing ...
+```
+
+---
+
+## PlayerStatPage – Statistikanzeige
+
+Die `PlayerStatPage` zeigt alles, was wir über einen Spieler wissen. Sie lädt zwei API-Calls parallel: einmal `/summary` für Profil und Ranks, einmal `/stats/summary` für die detaillierten Statistiken.
+
+### Was wird angezeigt?
+
+**Profilbereich**
+- Avatar, Username, Namecard als Hintergrundbild, Endorsement Level
+
+**Ranks**
+- Alle Competitive-Ränge des Spielers, aufgeteilt nach Plattform (PC/Console) und Rolle (Tank, Damage, Support) mit Season-Angabe und Rank-Icons
+
+**Hero Playtime**
+- Übersicht der gespielten Heroes mit ihrer Spielzeit
+
+**Allgemeine Statistiken** *(neu)*
+- 8 Stat-Karten: Gesamtspiele, Winrate, KDA, Spielzeit, Gewonnen/Verloren, Eliminations, Damage, Healing
+
+**Role Breakdown** *(neu)*
+- Je eine Karte für Tank, Damage und Support mit den wichtigsten Werten: Spiele, Winrate, KDA, Spielzeit, Ø Eliminations, Ø Damage
+
+**Top Heroes** *(neu)*
+- Tabelle der Top 15 Heroes nach Spielanzahl mit Winrate (grün ≥ 50% / rot < 50%), KDA und Ø Damage
+
+Die Stats-Sektionen werden nur angezeigt, wenn die API Daten zurückgibt – läuft die Stats-API nicht oder hat der Spieler noch keinen Snapshot, bleibt die Seite trotzdem funktionsfähig.
+
+---
+
 ## Wo stehen wir gerade?
 
 - [x] Projektidee & Scope definiert
@@ -111,6 +181,9 @@ Die Plattform verwendet **Google OAuth 2.0** für die Anmeldung.
 - [x] React Frontend – LoginPage, Dashboard, PlayerSearch
 - [x] Spieler-Dashboard (Grundstruktur)
 - [x] Spielersuche via Overwatch API
+- [x] OverwatchAdapterService – Spielersuche & Summary-Endpoint mit DB-Persistierung
+- [x] Stats-Endpoint (`/api/players/stats/summary/:playerId`) – speichert Snapshots in gameService DB
+- [x] PlayerStatPage – Allgemeine Statistiken, Role Breakdown, Top Heroes
 - [ ] API-Anbindung (z. B. Riot API für LoL)
 - [ ] Erweiterung auf weitere Spiele
 
@@ -121,32 +194,40 @@ Die Plattform verwendet **Google OAuth 2.0** für die Anmeldung.
 ```
 sportracker/
 ├── README.md
+├── docker-compose.yaml
 ├── .gitignore
-├── /backend                        ← ASP.NET Core API
+├── /backend                            ← ASP.NET Core API (Auth, Events)
 │   ├── /Controllers
-│   │   └── AuthController.cs       ← Google OAuth + JWT
-│   ├── /Models                     ← EF Core Entitäten
+│   │   └── AuthController.cs           ← Google OAuth + JWT
+│   ├── /Models                         ← EF Core Entitäten
 │   ├── /Data
-│   │   └── AppDbContext.cs         ← DbContext
+│   │   └── AppDbContext.cs             ← DbContext (eventApp DB)
 │   ├── appsettings.json
-│   └── appsettings.Development.json ← Secrets (nicht im Repo)
-├── /frontend                       ← React App (Vite)
+│   └── appsettings.Development.json    ← Secrets (nicht im Repo)
+├── /frontend                           ← React App (Vite)
 │   ├── /src
 │   │   ├── /components
-│   │   │   └── ProtectedRoute.jsx  ← Route-Schutz
+│   │   │   └── ProtectedRoute.jsx      ← Route-Schutz
 │   │   ├── /pages
-│   │   │   ├── LoginPage.jsx       ← Google Login
-│   │   │   ├── Dashboard.jsx       ← Hauptseite (geschützt)
-│   │   │   ├── PlayerSearch.jsx    ← Spielersuche
-│   │   │   └── PlayerBox.jsx       ← Suchergebnis-Komponente
+│   │   │   ├── LoginPage.jsx           ← Google Login
+│   │   │   ├── Dashboard.jsx           ← Hauptseite (geschützt)
+│   │   │   ├── PlayerSearch.jsx        ← Spielersuche
+│   │   │   ├── PlayerStatPage.jsx      ← Spielerprofil + Statistiken
+│   │   │   └── PlayerBox.jsx           ← Suchergebnis-Komponente
 │   │   ├── /tools
-│   │   │   └── OverwatchApiHandler.js ← API-Client
-│   │   └── App.jsx                 ← Routing
+│   │   │   └── OverwatchApiHandler.js  ← API-Client (search, summary, stats/summary)
+│   │   └── App.jsx                     ← Routing
 │   └── vite.config.js
-└── /doc                            ← Dokumentation & Diagramme
+├── /overwatchAdapter                   ← Node.js Microservice (Port 8081)
+│   ├── app.js                          ← Express App + Routing
+│   ├── db.js                           ← MariaDB Connection Pool
+│   └── /src/controller
+│       └── PlayerController.js         ← searchPlayer, summary, stats
+└── /doc                                ← Dokumentation & DB-Schemas
+    ├── gameservice.sql
+    └── eventApp.sql
 ```
 
 ---
----
 
-*Fach: Softwareentwicklung – Stand: März 2026*
+*Fach: Softwareentwicklung – Stand: Juni 2026*
