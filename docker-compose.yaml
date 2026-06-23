@@ -1,6 +1,6 @@
 ﻿services:
   db:
-    image: mariadb:12.2.2
+    image: mariadb:11
     restart: unless-stopped
     environment:
       MARIADB_ROOT_PASSWORD: "Godmaster"
@@ -12,8 +12,11 @@
     volumes:
       - ./db:/var/lib/mysql
       - ./doc/gameservice.sql:/docker-entrypoint-initdb.d/gameservice.sql
+      - ./doc/eventApp.sql:/docker-entrypoint-initdb.d/eventApp.sql
   phpmyadmin:
     image: phpmyadmin
     restart: unless-stopped
     ports:
       - 8337:80
+    environment:
+      PMA_HOST: db
