@@ -28,15 +28,34 @@
   background: rgba(0, 0, 0, 0.28);
   pointer-events: none;
 }
+.Logo-container{
+    display: flex; 
+    flex-direction: column; 
+    flex-wrap: wrap;
+}
+.logo {
+    flex-shrink: 0;
+}
+
+.logo img {
+    height: clamp(28px, 4vw, 45px);
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
+.Logo-container h1 {
+    position: relative;
+    top: 35px;
+}
 
 .profile-header {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem 2.5rem;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2.5rem;
 }
 
 .profile-header h1 {
