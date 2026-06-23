@@ -24,10 +24,14 @@ export default class OverwatchApiHandler {
      * @returns {Promise<Response>}
      */
     static GET(endpoint, path = null) {
-        return fetch(`${this.url}${endpoint}${path ? "/" + path : ""}`, {
+        const url = new URL(
+            `${endpoint}${path !== null ? "/" + path : ""}`,
+            this._url
+        );
+
+        return fetch(url, {
             headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
+                "Accept": "application/json"
             },
             redirect: "error",
             method: "GET"

@@ -5,6 +5,20 @@ import "./PlayerSearch.css"
 import OverwatchApiHandler, { ENDPOINTS } from "../tools/OverwatchApiHandler.js";
 import { PlayerBox } from "./PlayerBox.jsx";
 
+const getLoggedInUser = async () => {
+    const storedUser = localStorage.getItem("loggedInUser")
+
+    if (!storedUser) {
+        return null
+    }
+
+    try {
+        return JSON.parse(storedUser)
+    } catch {
+        return {name: storedUser}
+    }
+}
+
 export default function PlayerSearch() {
     const [playerName, setPlayerName] = useState("")
     const [searchResult, setSearchResult] = useState([])
