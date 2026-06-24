@@ -32,7 +32,7 @@ Hier ist, womit wir arbeiten:
 **OverwatchAdapterService (Microservice)**
 - **Node.js / Express** – eigenständiger Microservice für die Overwatch-Anbindung (Port 8081)
 - **MariaDB** – speichert Spielerdaten, Competitive Stats und detaillierte Stat-Snapshots (`gameService` DB)
-- **Overfast API** – externe API, von der wir die Live-Spielerdaten ziehen
+- [OverFast API](https://overfast-api.tekrop.fr/) – externe API, von der wir die Live-Spielerdaten ziehen
 
 **Frontend**
 - **React (Vite)** – komponentenbasiertes, responsives UI
